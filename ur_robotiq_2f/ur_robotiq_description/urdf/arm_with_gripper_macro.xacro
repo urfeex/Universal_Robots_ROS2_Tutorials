@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+
+  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
+
+  <xacro:macro name="arm_with_gripper" params="
+    parent
+    ur_type
+    joint_limits_parameters_file
+    kinematics_parameters_file
+    physical_parameters_file
+    visual_parameters_file
+    use_fake_hardware:=false
+    com_port:=/dev/ttyUSB0
+    robot_ip:=0.0.0.0
+    script_filename:=to_be_filled_by_ur_robot_driver
+    output_recipe_filename:=to_be_filled_by_ur_robot_driver
+    input_recipe_filename:=to_be_filled_by_ur_robot_driver
+    ">
+
+    <!--This will create the specific robot-->
+    <xacro:ur_robot
+      name="${ur_type}"
+      tf_prefix="${ur_type}_"
+      parent="${parent}"
+      use_fake_hardware="${use_fake_hardware}"
+      joint_limits_parameters_file="${joint_limits_parameters_file}"
+      kinematics_parameters_file="${kinematics_parameters_file}"
+      physical_parameters_file="${physical_parameters_file}"
+      visual_parameters_file="${visual_parameters_file}"
+      generate_ros2_control_tag="true"
+      use_tool_communication="true"
+      robot_ip="${robot_ip}"
+      script_filename="${script_filename}"
+      output_recipe_filename="${output_recipe_filename}"
+      input_recipe_filename="${input_recipe_filename}"
+    >
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:ur_robot>
+
+    <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="${ur_type}_" parent="${ur_type}_flange" use_fake_hardware="${use_fake_hardware}" com_port="${com_port}">
+      <origin xyz="0 0 0" rpy="${pi/2.0} 0 ${pi/2.0}" />
+    </xacro:robotiq_gripper>
+  </xacro:macro>
+
+</robot>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="robot_ip" default="192.168.56.101"/>
+  <arg name="use_fake_hardware" default="true" />
+
+  <include file="$(find-pkg-share ur_robot_driver)/launch/ur_control.launch.py">
+    <arg name="ur_type" value="ur5e"/>
+    <arg name="tf_prefix" value="ur5e_"/>
+    <arg name="robot_ip" value="$(var robot_ip)"/>
+    <arg name="use_fake_hardware" value="$(var use_fake_hardware)"/>
+    <arg name="description_package" value="ur_robotiq_description"/>
+    <arg name="description_file" value="arm_with_gripper.urdf.xacro"/>
+    <arg name="runtime_config_package" value="ur_robotiq_control"/>
+    <arg name="controllers_file" value="controllers.yml"/>
+    <arg name="use_tool_communication" value="true"/>
+  </include>
+
+  <node pkg="controller_manager" exec="spawner" args="robotiq_activation_controller robotiq_gripper_controller --load-only"/>
+
+</launch>
+
+

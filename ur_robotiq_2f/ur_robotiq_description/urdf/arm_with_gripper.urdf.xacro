@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot name="my_robot_cell" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="use_fake_hardware" default="true" />
+  <xacro:arg name="com_port" default="/dev/ttyUSB0" />
+  <xacro:arg name="ur_type" default="ur5e" />
+
+  <xacro:include filename="$(find ur_robotiq_description)/urdf/arm_with_gripper_macro.xacro"/>
+
+  <xacro:arg name="ur_type" default="ur20"/>
+  <xacro:arg name="joint_limits_parameters_file" default="$(find ur_description)/config/$(arg ur_type)/joint_limits.yaml"/>
+  <xacro:arg name="kinematics_parameters_file" default="$(find ur_description)/config/$(arg ur_type)/default_kinematics.yaml"/>
+  <xacro:arg name="physical_parameters_file" default="$(find ur_description)/config/$(arg ur_type)/physical_parameters.yaml"/>
+  <xacro:arg name="visual_parameters_file" default="$(find ur_description)/config/$(arg ur_type)/visual_parameters.yaml"/>
+
+  <xacro:arg name="robot_ip" default="0.0.0.0" />
+  <xacro:arg name="script_filename" default=""/>
+  <xacro:arg name="output_recipe_filename" default=""/>
+  <xacro:arg name="input_recipe_filename" default=""/>
+
+  <link name="world"/>
+  <!--This will create the scene where the robot is located in-->
+  <xacro:arm_with_gripper
+    parent="world"
+    ur_type="$(arg ur_type)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    com_port="$(arg com_port)"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)"
+    physical_parameters_file="$(arg physical_parameters_file)"
+    visual_parameters_file="$(arg visual_parameters_file)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(arg script_filename)"
+    output_recipe_filename="$(arg output_recipe_filename)"
+    input_recipe_filename="$(arg input_recipe_filename)"
+    >
+  </xacro:arm_with_gripper>
+
+</robot>
